@@ -14,7 +14,7 @@ def preprocess_text(doc):
     processed_doc = processed_doc.replace("’", "'")
     processed_doc = processed_doc.replace("“", '"')
     processed_doc = processed_doc.replace("”", '"')
-    non_words = re.compile(r"[^A-Za-z']+, ă, â, đ, ê, ô, ơ, ư")
+    non_words = re.compile(r"[^A-Za-z0-9']+")
     processed_doc = re.sub(non_words, ' ', processed_doc)
     return processed_doc
 
@@ -37,19 +37,13 @@ def build_inverted_index(library_path):
         word_collection = word_collection + ' ' + text
     word_collection = word_collection.split()
     word_collection = list(set(word_collection))
+    print(docs)
 
     #Build an inverted index
     for i in range(len(word_collection)):
         docid_list = []
-        for j in range(docs):
-            if docs[j].find(word_collection[i]) == -1:
-                break
-            else:
+        for j in range(len(docs)):
+            if docs[j].find(word_collection[i]) != -1:
                 docid_list.append(j)
-                break
         inverted_index.append(index_element(word_collection[i], docid_list))
     return inverted_index
-
-
-
-        
