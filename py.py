@@ -68,7 +68,7 @@ def search_docs(search_term: str, inverted_index: list):
                 break
     
     if len(search_items) == 0:
-        return [None]
+        return []
     else:
         return list(set(search_items[0]).intersection(*search_items))
 
