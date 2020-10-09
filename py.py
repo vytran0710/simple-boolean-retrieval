@@ -8,8 +8,10 @@ class index_element:
     def print(self):
         print(self.__word)
         print(self.__docid_list)
+    @property
     def get_word(self):
         return self.__word
+    @property
     def get_docid_list(self):
         return self.__docid_list
     def set_word(self, word: str):
@@ -67,8 +69,7 @@ def search_docs(search_term: str, inverted_index: list):
 
     return list(set(search_items[0]).intersection(*search_items))
 
-# b = 'D:/Docs'
-# # a = input()
+b = input()
+a = input()
 
-# print(build_inverted_index(b)[2].get_word)
-# print(search_docs(a, build_inverted_index(b)))
+print(search_docs(a, build_inverted_index(b)))
