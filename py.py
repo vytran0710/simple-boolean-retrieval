@@ -3,11 +3,19 @@ import os
 
 class index_element:
     def __init__(self, word: str, docid_list: list):
-        self.word = word
-        self.docid_list = docid_list
+        self.__word = word
+        self.__docid_list = docid_list
     def print(self):
-        print(self.word)
-        print(self.docid_list)
+        print(self.__word)
+        print(self.__docid_list)
+    def get_word(self):
+        return self.__word
+    def get_docid_list(self):
+        return self.__docid_list
+    def set_word(self, word: str):
+        self.__word = word
+    def set_docid_list(self, docid_list: list):
+        self.__docid_list = docid_list
 
 def preprocess_text(doc):
     processed_doc = doc.lower()
@@ -26,9 +34,9 @@ def read_file(file_path):
 def build_inverted_index(library_path):
     inverted_index = []
 
-    #Get distinct words from docs and make a temporary doc list
-    word_collection = '' #Distinct words
-    docs = [] #Doc list
+    # Get distinct words from docs and make a temporary doc list
+    word_collection = '' # Distinct words
+    docs = [] # Doc list
     for filename in os.listdir(library_path):
         file_path = os.path.join(library_path, filename)
         text = read_file(file_path)
@@ -37,9 +45,8 @@ def build_inverted_index(library_path):
         word_collection = word_collection + ' ' + text
     word_collection = word_collection.split()
     word_collection = list(set(word_collection))
-    print(docs)
 
-    #Build an inverted index
+    # Build an inverted index
     for i in range(len(word_collection)):
         docid_list = []
         for j in range(len(docs)):
@@ -47,3 +54,21 @@ def build_inverted_index(library_path):
                 docid_list.append(j)
         inverted_index.append(index_element(word_collection[i], docid_list))
     return inverted_index
+
+def search_docs(search_term: str, inverted_index: list):
+    search_term = preprocess_text(search_term)
+    search_term = search_term.split()
+    search_items = []
+    for i in range(len(search_term)):
+        for j in range(len(inverted_index)):
+            if search_term[i] == inverted_index[j].get_word:
+                search_items.append(inverted_index[j].get_docid_list)
+                break
+
+    return list(set(search_items[0]).intersection(*search_items))
+
+# b = 'D:/Docs'
+# # a = input()
+
+# print(build_inverted_index(b)[2].get_word)
+# print(search_docs(a, build_inverted_index(b)))
