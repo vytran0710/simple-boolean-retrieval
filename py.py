@@ -66,8 +66,11 @@ def search_docs(search_term: str, inverted_index: list):
             if search_term[i] == inverted_index[j].get_word:
                 search_items.append(inverted_index[j].get_docid_list)
                 break
-
-    return list(set(search_items[0]).intersection(*search_items))
+    
+    if len(search_items) == 0:
+        return [None]
+    else:
+        return list(set(search_items[0]).intersection(*search_items))
 
 b = input()
 a = input()
